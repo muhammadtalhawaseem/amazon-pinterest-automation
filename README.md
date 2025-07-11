@@ -1,0 +1,1 @@
+# amazon-pinterest-automation

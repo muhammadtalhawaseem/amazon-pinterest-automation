@@ -1,0 +1,44 @@
+import os
+import requests
+
+# Pinterest API credentials (use GitHub Secrets)
+ACCESS_TOKEN = os.environ["PINTEREST_ACCESS_TOKEN"]
+BOARD_ID = os.environ["BOARD_ID"]
+
+def post_to_pinterest():
+    product_title = "Neutrogena Hydro Boost Water Gel - Lightweight & Oil-Free"
+    product_description = (
+        "Give your skin the hydration it craves! Neutrogena Hydro Boost Water Gel is a "
+        "lightweight, oil-free moisturizer ideal for normal to combination skin. With 50ml of pure "
+        "hydration power, this gel absorbs quickly and leaves your skin fresh and smooth all day long. "
+        "Perfect for sensitive skin too!"
+    )
+    product_link = "https://amzn.to/3GiXNOz"
+    image_url = "https://i.imgur.com/zygnA1q.png"  # Replace with your hosted image later
+    alt_text = "Neutrogena Hydro Boost 50ml water gel moisturizer for hydrated and fresh skin."
+
+    url = "https://api.pinterest.com/v5/pins"
+
+    headers = {
+        "Authorization": f"Bearer {ACCESS_TOKEN}",
+        "Content-Type": "application/json"
+    }
+
+    data = {
+        "board_id": BOARD_ID,
+        "title": product_title,
+        "description": product_description,
+        "alt_text": alt_text,
+        "link": product_link,
+        "media_source": {
+            "source_type": "image_url",
+            "url": image_url
+        }
+    }
+
+    response = requests.post(url, json=data, headers=headers)
+    print("Status Code:", response.status_code)
+    print("Response:", response.json())
+
+if __name__ == "__main__":
+    post_to_pinterest()
